@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>CKEditor 5 – document editor build – development sample</title>
+	<link rel="stylesheet" href="../static/highlight/styles/default.css">
+	<style>
+		body {
+			max-width: 900px;
+			margin: 20px auto;
+		}
+	</style>
+</head>
+<body>
+
+<!-- <h1>CKEditor 5 – document editor build – development sample</h1> -->
+
+<h2>The toolbar</h2>
+<div class="toolbar-container"></div>
+
+<h2>The editable</h2>
+<h2 id="initCode">init code</h2>
+
+<div class="editable-container"></div>
+
+<style>
+	.editable-container,
+	.toolbar-container {
+		position: relative;
+		border: 1px solid #ddd;
+		background: #eee;
+	}
+
+	.toolbar-container {
+		padding: 1em;
+	}
+
+	.editable-container {
+		padding: 3em;
+		overflow-y: scroll;
+		max-height: 500px;
+	}
+
+	.editable-container .document-editor__editable.ck-editor__editable {
+		min-height: 21cm;
+		padding: 2em;
+		border: 1px #D3D3D3 solid;
+		border-radius: var(--ck-border-radius);
+		background: white;
+		box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+	}
+</style>
+
+<script src="../build/ckeditor.js"></script>
+<script src="../build/translations/zh-cn.js"></script>
+<script src="../static/highlight/highlight.pack.js"></script>
+<script src="../static/jquery.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', (event) => {
+$('pre').each((i,block) => {
+	$(block).wrap('<pre><pre>')
+})
+
+  $('pre code').each((i, block) => {
+	hljs.highlightBlock(block);
+  });
+  hljs.initHighlighting();
+
+
+  $('#initCode').on('click',function(){
+	$('pre code').each((i, block) => {
+		// $(block).wrap('<pre><pre>')
+		hljs.highlightBlock(block);
+	});
+	hljs.initHighlighting();
+  })
+});
+
+	const editorData = ``;
+
+	DecoupledEditor.create( editorData,{
+		language: 'zh-cn',
+		heading: {
+                  options: [
+                      { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
+                      { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
+                      { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
+                      { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' },
+                      { model: 'heading4', view: 'h4', title: 'Heading 4', class: 'ck-heading_heading4' },
+                      { model: 'heading5', view: 'h5', title: 'Heading 5', class: 'ck-heading_heading5' },
+                  ],
+              },
+	} )
+	.then( editor => {
+		window.editor = editor;
+
+		document.querySelector( '.toolbar-container' ).appendChild( editor.ui.view.toolbar.element );
+		document.querySelector( '.editable-container' ).appendChild( editor.ui.view.editable.element );
+	} )
+	.catch( err => {
+		console.error( err.stack );
+	} );
+</script>
+
+</body>
+</html>
